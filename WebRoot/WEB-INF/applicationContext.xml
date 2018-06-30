@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url">
+			<value><![CDATA[jdbc:mysql://localhost:3306/db_manager?userUnicode=true&characterEncoding=utf-8]]></value>
+		</property>
+		<property name="username" value="root"></property>
+		<property name="password" value="123"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>org/apache/commons/codec/po/News.hbm.xml</value>
+				<value>org/apache/commons/codec/po/Newscomment.hbm.xml</value>
+				<value>org/apache/commons/codec/po/Newstype.hbm.xml</value>
+				<value>org/apache/commons/codec/po/Users.hbm.xml</value></list>
+		</property>
+	</bean>
+	
+		<bean id="dao" class="org.apache.commons.codec.data.DataAobject">
+			<property name="sessionFactory" ref="sessionFactory"></property>
+		</bean>
+		<bean id="usersManager" class="org.apache.commons.codec.bo.UsersManager">
+			<property name="dao" ref="dao"></property>
+		</bean>
+		<bean id="newsManager" class="org.apache.commons.codec.bo.NewsManager">
+			<property name="dao" ref="dao"></property>
+		</bean>
+		<bean id="newsTypeMananager" class="org.apache.commons.codec.bo.NewsTypeManager">
+			<property name="dao" ref="dao"></property>
+		</bean>
+		<bean id="newsCommentManager" class="org.apache.commons.codec.bo.NewscommentManager">
+			<property name="dao" ref="dao"></property>
+		</bean>
+		<bean name="/user" class="com.yourcompany.struts.action.UsersAction">
+			<property name="userManager" ref="usersManager"></property>
+		</bean>
+		<bean name="/news" class="com.yourcompany.struts.action.NewsAction">
+			<property name="newsManager" ref="newsManager"></property>
+		</bean>
+		<bean name="/newsComment" class="com.yourcompany.struts.action.NewscommentAction">
+			<property name="commentManager" ref="newsCommentManager"></property>
+		</bean>
+		<bean name="/newsType" class="com.yourcompany.struts.action.NewsTypeAction">
+			<property name="newsTypeManager" ref="newsTypeMananager"></property>
+		</bean>
+	</beans>

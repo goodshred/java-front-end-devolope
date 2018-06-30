@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+  <data-sources />
+  <form-beans >
+    <form-bean name="usersForm" type="com.yourcompany.struts.form.UsersForm" />
+    <form-bean name="newsForm" type="com.yourcompany.struts.form.NewsForm" />
+    <form-bean name="newsCommentForm" type="com.yourcompany.struts.form.NewscommentForm" />
+	<form-bean name="newsTypeForm" type="com.yourcompany.struts.form.NewsTypeForm" />
+  </form-beans>
+
+  <global-exceptions />
+  <global-forwards />
+  <action-mappings >
+  <action
+      attribute="newsTypeForm"
+      name="newsTypeForm"
+      parameter="method"
+      path="/newsType"
+      scope="request"
+      type="com.yourcompany.struts.action.NewsTypeAction" />
+  <action
+      attribute="newsCommentForm"
+      name="newsCommentForm"
+      parameter="method"
+      path="/newsComment"
+      scope="request"
+      type="com.yourcompany.struts.action.NewscommentAction" />
+  
+    <action
+      attribute="newsForm"
+      name="newsForm"
+      parameter="method"
+      path="/news"
+      scope="request"
+      type="com.yourcompany.struts.action.NewsAction" />
+      
+     <action
+      attribute="usersForm"
+      input="/user.jsp"
+      name="usersForm"
+      parameter="method"
+      path="/user"
+      scope="request"
+      type="com.yourcompany.struts.action.UsersAction" />
+
+  </action-mappings>
+<controller processorClass="org.springframework.web.struts.DelegatingRequestProcessor"></controller>
+  <message-resources parameter="com.yourcompany.struts.ApplicationResources" />
+  <plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
+  		<set-property property="contextConfigLocation" value="/WEB-INF/applicationContext.xml"/>
+ </plug-in>
+</struts-config>
+
